@@ -13,8 +13,8 @@
 					"script": {
 						"exec": [
 							"var jsonData = pm.response.json();\r",
-							"let token = jsonData;\r",
-							"pm.environment.set(\"token\",token);"
+							"\r",
+							"pm.environment.set(\"token\", jsonData.token);"
 						],
 						"type": "text/javascript"
 					}
@@ -108,13 +108,20 @@
 							"let jsonData = pm.response.json();\r",
 							"\r",
 							"pm.test(\"Status code 200\", function(){\r",
-							"    pm.response.to.have.status(200)\r",
+							"    pm.response.to.have.status(200);\r",
 							"});\r",
 							"\r",
 							"let user_name = jsonData.name;\r",
-							"pm.test(\"Your name\", function(){\r",
+							"pm.test(\"Your test name\", function(){\r",
 							"    pm.expect(user_name).to.eql(\"Sergey\")\r",
-							"});"
+							"});\r",
+							"\r",
+							"let salary_2 = +jsonData.salary;\r",
+							"let check_salary = salary_2 * 2;\r",
+							"\r",
+							"pm.test(\"Salary after 2 years\",function(){\r",
+							"    pm.expect(salary_2).to.eql(check_salary);\r",
+							"})"
 						],
 						"type": "text/javascript"
 					}

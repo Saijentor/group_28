@@ -7,6 +7,19 @@
 	"item": [
 		{
 			"name": "Login",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"var jsonData = pm.response.json();\r",
+							"let token = jsonData;\r",
+							"pm.environment.set(\"token\",token);"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
 			"request": {
 				"method": "POST",
 				"header": [],
@@ -26,15 +39,11 @@
 					]
 				},
 				"url": {
-					"raw": "http://162.55.220.72:5005/login",
-					"protocol": "http",
+					"raw": "{{url}}:{{port}}/login",
 					"host": [
-						"162",
-						"55",
-						"220",
-						"72"
+						"{{url}}"
 					],
-					"port": "5005",
+					"port": "{{port}}",
 					"path": [
 						"login"
 					]
@@ -43,7 +52,7 @@
 			"response": []
 		},
 		{
-			"name": "Login Copy",
+			"name": "Test_pet",
 			"request": {
 				"method": "POST",
 				"header": [],
@@ -67,7 +76,7 @@
 						},
 						{
 							"key": "auth_token",
-							"value": "/s34lfgbj/Sergey/jjd909/98157kjkWpqc2818123182858evny\"",
+							"value": "{{token}}",
 							"type": "text"
 						}
 					]
@@ -90,10 +99,65 @@
 			"response": []
 		},
 		{
-			"name": "New Request",
+			"name": "new_data",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"let jsonData = pm.response.json();\r",
+							"\r",
+							"pm.test(\"Status code 200\", function(){\r",
+							"    pm.response.to.have.status(200)\r",
+							"});\r",
+							"\r",
+							"let user_name = jsonData.name;\r",
+							"pm.test(\"Your name\", function(){\r",
+							"    pm.expect(user_name).to.eql(\"Sergey\")\r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
 			"request": {
-				"method": "GET",
-				"header": []
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "formdata",
+					"formdata": [
+						{
+							"key": "age",
+							"value": "27",
+							"type": "text"
+						},
+						{
+							"key": "salary",
+							"value": "3000",
+							"type": "text"
+						},
+						{
+							"key": "name",
+							"value": "Sergey",
+							"type": "text"
+						},
+						{
+							"key": "auth_token",
+							"value": "{{token}}",
+							"type": "text"
+						}
+					]
+				},
+				"url": {
+					"raw": "{{url}}:{{port}}/new_data",
+					"host": [
+						"{{url}}"
+					],
+					"port": "{{port}}",
+					"path": [
+						"new_data"
+					]
+				}
 			},
 			"response": []
 		}
